@@ -1,0 +1,6 @@
+DROP TABLE velos CASCADE;
+DROP TABLE historique_maintenances CASCADE;
+DROP TABLE stations CASCADE;
+DROP TABLE adherents CASCADE;
+DROP TABLE emprunts CASCADE;
+DROP TABLE adresses CASCADE;
