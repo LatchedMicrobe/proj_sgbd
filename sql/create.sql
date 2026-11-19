@@ -67,7 +67,7 @@ CREATE TABLE adherents
 CREATE TABLE emprunts
 (
     id_emprunt                      SERIAL                  NOT NULL,
-    dt_depart                       DATE                            ,
+    dt_depart                       DATE                    NOT NULL,
     dt_arrive                       DATE                            ,
     temps_depart                    TIME                            ,
     temps_arrive                    TIME                            ,
@@ -89,6 +89,10 @@ CREATE TABLE adresses
     commune                         VARCHAR(20)                     ,
     CONSTRAINT pk_adresse PRIMARY KEY (id_adresse)                 
 );
+
+-- ============================================================
+--   Constraints FK tables                                           
+-- ============================================================
 
 ALTER TABLE velos
     ADD CONSTRAINT fk_velo FOREIGN KEY (id_station)
@@ -115,3 +119,22 @@ ALTER TABLE emprunts
        REFERENCES stations (id_station),
     ADD CONSTRAINT fk4_emprunt FOREIGN KEY (id_adherent)
        REFERENCES adherents (id_adherent);
+
+-- ============================================================
+--   Constraints check tables                                          
+-- ============================================================
+
+ALTER TABLE velos
+    ADD CONSTRAINT chk_velo CHECK (velos.etat IN ('disponible','en enprunt','en maintenance','en panne'));
+    --TODO: A station can only have a number of relationships with velos at most equal to its max capacity (use functions)
+
+-- ============================================================
+--   Triggers tables                                          
+-- ============================================================
+    --TODO: A adhrent can only have a single emprunt "en cours" (discuss if emprunt should have attribut etat), for now implement using dt arrive IS NULL
+    --TODO (probably with multiple triggers): Update etat of velo according to the relationship it gets (if it has a relationship stocke, is disponible, if we insert the velo in a relationship with emprunt, it should change to en emprunt, the same with maintenance)
+        --Restriction: A velo can only be in emprunt if its state is disponible and if its battery is suficient
+        --Restriction: Check the etat variable to decided if it even can enter that relationship
+        --Restriction: Every time a velo currently en emprunt is stocked in a station, put the the arrived station in emprunt and change status of velo
+    --TODO: Distance parcorue must be, at least, the distance between the two stations
+   
