@@ -1,0 +1,11 @@
+Velo(id_velo, marque, modele, dt_mise_en_service, kilométrage, état, niveau_de_charge_batterie, #id_station)
+
+Historique_Maintenances(id_maintenance, dt_intervention, nature_intervention, duree_interventions, #id_velo(NonNull))
+
+Stations(id_station, nom_station, coordennes_GPS, capacite, #id_adresse (NonNull, Unique))
+
+Adresse(id_adresse, adresse, commune)
+
+Adherents(id_adherent, nom_adherent, prénom, email, numero_tel, dt_adherion, #id_adresse(NonNull))
+
+Emprunts(id_emprunts, dt_depart, dt_arrive, temps_depart, temps_arrivé, distance_parcourue, #id_velo(NonNull), #id_station_depart(NonNull), #id_station_arrive, #id_adherent(NonNull))
