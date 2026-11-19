@@ -39,8 +39,8 @@ CREATE TABLE historique_maintenances
 CREATE TABLE stations
 (
     id_station                      SERIAL                 NOT NULL,
-    nom_station                             VARCHAR(20)                    ,
-    coordones_gps                   GEOGRAPHY(POINT, 4326)                ,
+    nom_station                     VARCHAR(20)                    ,
+    coordones_gps                   GEOGRAPHY(POINT, 4326)         ,
     capacite                        INTEGER                        ,
     id_adresse                      INTEGER    UNIQUE      NOT NULL, 
     CONSTRAINT pk_station PRIMARY KEY (id_station)                 
