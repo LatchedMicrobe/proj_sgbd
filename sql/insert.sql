@@ -53,7 +53,7 @@ BEGIN
         VALUES ((i + 10) || ' rue des Lilas', villes[1 + ((i - 1) % 10)])
         RETURNING id_adresse INTO adresse_id;
 
-        INSERT INTO adherents (nom, prenom, email, numero_tel, dt_adhesion, id_adresse)
+        INSERT INTO adherents (nom_adherent, prenom, email, numero_tel, dt_adhesion, id_adresse)
         VALUES (noms[1 + ((i - 1) % 10)], prenoms[1 + ((i + 2) % 10)],
                 'user' || i || '_' || adresse_id || '@example.org',
                 '06' || lpad(i::TEXT, 8, '0'),
@@ -83,7 +83,7 @@ BEGIN
         velo_index := 1 + ((i - 1) % 45);
         station_index := 1 + ((velo_index - 1) % 10);
         depart := DATE '2026-09-01' + ((i - 1) / 45) * 7;
-        INSERT INTO emprunts (dt_departure, dt_arrive, distance_parcourue,
+        INSERT INTO emprunts (dt_depart, dt_arrive, distance_parcourue,
                               id_velo, id_station_depart, id_station_arrive, id_adherent)
         VALUES (depart, depart, (50 + ((i * 13) % 900)) / 100.0,
                 velos_ids[velo_index], stations_ids[station_index],
@@ -92,7 +92,7 @@ BEGIN
 
     -- Cinq emprunts en cours.
     FOR i IN 46..50 LOOP
-        INSERT INTO emprunts (dt_departure, dt_arrive, distance_parcourue,
+        INSERT INTO emprunts (dt_depart, dt_arrive, distance_parcourue,
                               id_velo, id_station_depart, id_station_arrive, id_adherent)
         VALUES (DATE '2026-11-05', NULL, NULL, velos_ids[i],
                 stations_ids[1 + ((i - 1) % 10)], NULL, adherents_ids[i - 45]);
@@ -101,7 +101,7 @@ BEGIN
     -- Duree en minutes ; interventions anterieures aux trajets.
     FOR i IN 1..20 LOOP
         INSERT INTO historique_maintenances
-            (dt_interventions, nature_interventions, duree_interventions, id_velo)
+            (dt_intervention, nature_intervention, duree_intervention, id_velo)
         VALUES (DATE '2026-08-01' + i,
                 CASE i % 4 WHEN 0 THEN 'Revision generale'
                      WHEN 1 THEN 'Freins' WHEN 2 THEN 'Pneu' ELSE 'Batterie' END,
